@@ -1,0 +1,275 @@
+﻿<UserControl x:Class="Flixplorer.Views.TargetDetailView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Flixplorer.Views"
+             xmlns:viewmodels="clr-namespace:Flixplorer.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="1000" d:DesignWidth="1800">
+
+    <!-- Sets datacontext to TargetDetailViewModel -->
+    <UserControl.DataContext>
+        <viewmodels:TargetDetailViewModel/>
+    </UserControl.DataContext>
+
+    <!-- Border root element -->
+    <Border Height="862" Background="Black"
+            CornerRadius="10,0,0,0">
+
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.RowSpan="5" CornerRadius="10,0,0,0">
+
+                <StackPanel>
+
+                    <!-- Gray border for "no image found" infotext -->
+                    <Border Height="862"
+                            CornerRadius="10,0,0,0"
+                            Background="DimGray">
+
+                        <Border.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding NoImageText}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Resources>
+                        
+                        <!-- Textblock for infotext -->
+                        <TextBlock 
+                               FontSize="26"
+                               Foreground="Red"
+                               Text="Image not available"
+                               TextAlignment="Center"
+                               VerticalAlignment="Center">
+                        </TextBlock>
+                        
+                    </Border>
+
+                    <!-- Loading icon label -->
+                    <Label Height="862"
+                   HorizontalContentAlignment="Center"
+                   VerticalContentAlignment="Center">
+
+                        <Label.Resources>
+                            <Style TargetType="Label">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding HideLoadingIcon}" Value="True">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Label.Resources>
+
+                        <!-- Animated loading icon -->
+                        <Ellipse Width="75" Height="75"
+                         StrokeThickness="2">
+
+                            <Ellipse.Stroke>
+                                <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
+                                    <GradientStop Color="Red" Offset="0.5"/>
+                                    <GradientStop Color="Black"/>
+                                </LinearGradientBrush>
+                            </Ellipse.Stroke>
+                            <Ellipse.Triggers>
+                                <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation
+                                        Storyboard.TargetName="rotateTransform"
+                                        Storyboard.TargetProperty="Angle"
+                                        From="0" To="360"
+                                        Duration="0:0:1"
+                                        RepeatBehavior="Forever"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Ellipse.Triggers>
+                            <Ellipse.RenderTransform>
+                                <RotateTransform x:Name="rotateTransform" CenterX="37.5" CenterY="37.5"/>
+                            </Ellipse.RenderTransform>
+
+                        </Ellipse>
+
+                    </Label>
+
+                    <!-- Border for background image -->
+                    <Border Height="862" CornerRadius="10,0,0,0">
+                        <Border.Background>
+                            <ImageBrush ImageSource="{Binding TargetImage.UriSource}"/>
+                        </Border.Background>
+                    </Border>
+
+                </StackPanel>
+
+            </Border>
+
+            <!-- Border that contains target info -->
+            <Border Grid.Row="3" Grid.RowSpan="2"
+                    Background="Black"
+                    Opacity="0.75"
+                    Margin="20"
+                    CornerRadius="10"/>
+
+            <Grid Grid.Row="3" Grid.RowSpan="2" Margin="20">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+
+                <Grid>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Textblock for target title -->
+                    <TextBlock Margin="20,20,0,0"
+                               Foreground="Red"
+                               TextWrapping="Wrap"
+                               Text="{Binding TargetDetailModel.Title}"
+                               FontSize="26"/>
+
+                    <!-- Textblock for target specific info -->
+                    <TextBlock Margin="0,20,0,0"
+                               Grid.Column="1"
+                               TextAlignment="Right"
+                               Foreground="Red"
+                               Text="{Binding TargetDetailModel.TypeSpecificInfo}"
+                               FontSize="26"/>
+
+                    <!-- Textblock for target release year -->
+                    <TextBlock Margin="0,20,33,0"
+                               Grid.Column="2"
+                               TextAlignment="Right"
+                               Foreground="Red"
+                               Text="{Binding TargetDetailModel.ReleaseYear}"
+                               FontSize="26"/>
+
+                    <!-- Scrollviewer for textblock that contains target plot -->
+                    <ScrollViewer Grid.Row="1"
+                                  Grid.ColumnSpan="3"
+                                  Margin="20,20,20,20"
+                                  VerticalScrollBarVisibility="Hidden">
+
+                        <!-- Textblock for target plot -->
+                        <TextBlock 
+                               TextWrapping="Wrap"
+                               Foreground="Red"
+                               FontSize="26"
+                               Text="{Binding TargetDetailModel.Plot}"/>
+
+                    </ScrollViewer>
+
+                </Grid>
+
+                <Grid Grid.Column="1">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Textblock for target director-->
+                    <TextBlock Margin="20,23,0,0"
+                           Foreground="Red"
+                           TextWrapping="Wrap"
+                           Text="{Binding TargetDetailModel.Director}"
+                           FontSize="20"/>
+
+                    <!-- Scrollviewer for textblock that contains target actors -->
+                    <ScrollViewer Margin="20,20,0,20" Grid.Row="1" Grid.RowSpan="2"
+                                  VerticalScrollBarVisibility="Hidden">
+
+                        <!-- Textblock for target actors -->
+                        <TextBlock
+                           Foreground="Red"
+                           TextWrapping="WrapWithOverflow"
+                           Text="{Binding TargetDetailModel.Actors}"
+                           FontSize="20"/>
+
+                    </ScrollViewer>
+
+                    <!-- Scrollviewer for textblock that contains target genres -->
+                    <ScrollViewer VerticalScrollBarVisibility="Hidden"
+                                  Grid.Column="1" Grid.RowSpan="2"
+                                  Margin="20,23,20,20">
+
+                        <!-- Textblock for target genres-->
+                        <TextBlock Foreground="Red"
+                                   TextWrapping="Wrap"
+                                   Text="{Binding TargetDetailModel.Genres}"
+                                   FontSize="20"/>
+
+                    </ScrollViewer>
+
+                    <StackPanel Grid.Column="1"  Grid.Row="2">
+
+                        <!-- Button for adding/removing items to/from favourites list -->
+                        <Button 
+                            Height="50"
+                            Margin="20,0,20,0"
+                            VerticalAlignment="Bottom"
+                            IsEnabled="{Binding ButtonsEnabled}"
+                            Content="{Binding FavouritesButtonText}"
+                            Cursor="{Binding HandCursor}"
+                            Command="{Binding FavouritesButtonCommand}"
+                            Style="{StaticResource CustomConfirmationButtonStyle}"/>
+
+                        <!-- Textblock for error message -->
+                        <TextBlock Height="20"
+                                   FontSize="14"
+                                   Foreground="Red"
+                                   TextAlignment="Center"
+                                   Text="{Binding ErrorText}"/>
+
+                        <!-- Button for navigating to targets netflix page -->
+                        <Button 
+                            Height="50"
+                            Margin="20,0,20,20"
+                            Content="Watch on Netflix"
+                            VerticalAlignment="Bottom"
+                            IsEnabled="{Binding ButtonsEnabled}"
+                            Cursor="{Binding HandCursor}"
+                            Command="{Binding OpenNetflixCommand}"
+                            Style="{StaticResource CustomConfirmationButtonStyle}"/>
+
+                    </StackPanel>
+
+                </Grid>
+
+            </Grid>
+
+        </Grid>
+
+    </Border>
+
+</UserControl>

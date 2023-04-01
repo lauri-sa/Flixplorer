@@ -1,0 +1,142 @@
+﻿<UserControl x:Class="Flixplorer.Views.FavouritesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Flixplorer"
+             xmlns:views="clr-namespace:Flixplorer.Views"
+             xmlns:viewmodels="clr-namespace:Flixplorer.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <!-- Maps viewmodel to view -->
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type viewmodels:ErrorViewModel}">
+            <views:ErrorView/>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <!-- Sets datacontext to FavouritesViewModel -->
+    <UserControl.DataContext>
+        <viewmodels:FavouritesViewModel/>
+    </UserControl.DataContext>
+
+    <!-- Border root element -->
+    <Border Height="862" Background="Black"
+            Padding="2" CornerRadius="10,0,0,0">
+
+        <StackPanel>
+
+            <!-- Border for displaying "Favourites list is empty" infotext-->
+            <Border Height="862"
+                    CornerRadius="10,0,0,0"
+                    Background="Black">
+
+                <Border.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsFavouritesEmpty}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Resources>
+
+                <!-- Textblock for infotext -->
+                <TextBlock 
+                           FontSize="26"
+                           Foreground="Red"
+                           Text="Favourites list is currently empty"
+                           TextAlignment="Center"
+                           VerticalAlignment="Center">
+                </TextBlock>
+
+            </Border>
+
+            <!-- Loading icon label -->
+            <Label Height="842"
+                   HorizontalContentAlignment="Center"
+                   VerticalContentAlignment="Center">
+
+                <Label.Resources>
+                    <Style TargetType="Label">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding HideLoadingIcon}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Label.Resources>
+
+                <!-- Animated loading icon -->
+                <Ellipse Width="75" Height="75"
+                         StrokeThickness="2">
+
+                    <Ellipse.Stroke>
+                        <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
+                            <GradientStop Color="Red" Offset="0.5"/>
+                            <GradientStop Color="Black"/>
+                        </LinearGradientBrush>
+                    </Ellipse.Stroke>
+                    <Ellipse.Triggers>
+                        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation
+                                        Storyboard.TargetName="rotateTransform"
+                                        Storyboard.TargetProperty="Angle"
+                                        From="0" To="360"
+                                        Duration="0:0:1"
+                                        RepeatBehavior="Forever"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Ellipse.Triggers>
+                    <Ellipse.RenderTransform>
+                        <RotateTransform x:Name="rotateTransform" CenterX="37.5" CenterY="37.5"/>
+                    </Ellipse.RenderTransform>
+
+                </Ellipse>
+
+            </Label>
+
+            <!-- Scrollviewer for listview that contains media items -->
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                      VerticalScrollBarVisibility="Hidden">
+
+                <ListView Height="864" ItemsSource="{Binding FavouritesCollection}"
+                      Background="Black" BorderThickness="0"
+                      ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListViewItem}">
+                            <Setter Property="IsTabStop" Value="False"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                        <ContentPresenter/>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal"
+                                   Width="1600"/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+
+                </ListView>
+
+            </ScrollViewer>
+
+        </StackPanel>
+
+    </Border>
+
+</UserControl>
