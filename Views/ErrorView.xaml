@@ -1,0 +1,243 @@
+﻿<UserControl x:Class="Flixplorer.Views.ErrorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Flixplorer.Views"    
+             xmlns:viewmodels="clr-namespace:Flixplorer.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <!-- Sets datacontext to ErrorViewModel -->
+    <UserControl.DataContext>
+        <viewmodels:ErrorViewModel/>
+    </UserControl.DataContext>
+
+    <!-- Border root component -->
+    <Border Width="1600"
+            Height="862"
+            CornerRadius="10,0,0,0"
+            Background="Black">
+
+        <!-- Stackpanel that contains error message and buttons -->
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+
+            <!-- Error message textblock -->
+            <TextBlock FontSize="26"
+                   Foreground="Red"
+                   TextAlignment="Center"
+                   Text="An unexpected error occurred while loading the content">
+
+                <TextBlock.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding InitializeError}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding TargetDetailsError}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding SearchError}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding FavouritesError}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Resources>
+
+            </TextBlock>
+
+            <!--- Reload button visibilities are bound to boolean values of error flags -->
+            <!-- Reload button -->
+            <Button Height="50"
+                    Width="200"
+                    Margin="0,20,0,0"
+                    Content="Try Again"
+                    Cursor="{Binding HandCursor}"
+                    Command="{Binding ReInitializeCommand}">
+
+                <Button.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Setter Property="Foreground" Value="Red"/>
+                        <Setter Property="FontSize" Value="22"/>
+                        <Setter Property="IsTabStop" Value="False"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Grid Background="Black">
+                                        <Border Name="border"
+                                                BorderThickness="2"
+                                                BorderBrush="Red"
+                                                CornerRadius="10"
+                                                Padding="0,7,0,0">
+                                            <ContentPresenter HorizontalAlignment="Center"
+                                                  VerticalAlignment="Stretch"/>
+                                        </Border>
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="border" Property="BorderThickness" Value="4"/>
+                                            <Setter Property="FontSize" Value="20"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding InitializeError}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Resources>
+                
+            </Button>
+
+            <!-- Reload button -->
+            <Button Height="50"
+                    Width="200"
+                    Margin="0,20,0,0"
+                    Content="Try Again"
+                    Cursor="{Binding HandCursor}"
+                    Command="{Binding ReloadTargetDetailsCommand}">
+
+                <Button.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Setter Property="Foreground" Value="Red"/>
+                        <Setter Property="FontSize" Value="22"/>
+                        <Setter Property="IsTabStop" Value="False"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Grid Background="Black">
+                                        <Border Name="border"
+                                                BorderThickness="2"
+                                                BorderBrush="Red"
+                                                CornerRadius="10"
+                                                Padding="0,7,0,0">
+                                            <ContentPresenter HorizontalAlignment="Center"
+                                                  VerticalAlignment="Stretch"/>
+                                        </Border>
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="border" Property="BorderThickness" Value="4"/>
+                                            <Setter Property="FontSize" Value="20"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding TargetDetailsError}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Resources>
+
+            </Button>
+
+            <!-- Reload button -->
+            <Button Height="50"
+                    Width="200"
+                    Margin="0,20,0,0"
+                    Content="Try Again"
+                    Cursor="{Binding HandCursor}"
+                    Command="{Binding ReloadSearchCommand}">
+
+                <Button.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Setter Property="Foreground" Value="Red"/>
+                        <Setter Property="FontSize" Value="22"/>
+                        <Setter Property="IsTabStop" Value="False"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Grid Background="Black">
+                                        <Border Name="border"
+                                                BorderThickness="2"
+                                                BorderBrush="Red"
+                                                CornerRadius="10"
+                                                Padding="0,7,0,0">
+                                            <ContentPresenter HorizontalAlignment="Center"
+                                                  VerticalAlignment="Stretch"/>
+                                        </Border>
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="border" Property="BorderThickness" Value="4"/>
+                                            <Setter Property="FontSize" Value="20"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SearchError}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Resources>
+
+            </Button>
+
+            <!-- Reload button -->
+            <Button Height="50"
+                    Width="200"
+                    Margin="0,20,0,0"
+                    Content="Try Again"
+                    Cursor="{Binding HandCursor}"
+                    Command="{Binding ReloadFavouritesCommand}">
+
+                <Button.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Setter Property="Foreground" Value="Red"/>
+                        <Setter Property="FontSize" Value="22"/>
+                        <Setter Property="IsTabStop" Value="False"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Grid Background="Black">
+                                        <Border Name="border"
+                                                BorderThickness="2"
+                                                BorderBrush="Red"
+                                                CornerRadius="10"
+                                                Padding="0,7,0,0">
+                                            <ContentPresenter HorizontalAlignment="Center"
+                                                  VerticalAlignment="Stretch"/>
+                                        </Border>
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="border" Property="BorderThickness" Value="4"/>
+                                            <Setter Property="FontSize" Value="20"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding FavouritesError}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Resources>
+
+            </Button>
+
+        </StackPanel>
+
+    </Border>
+
+</UserControl>

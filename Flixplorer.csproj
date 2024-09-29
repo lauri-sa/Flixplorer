@@ -1,0 +1,66 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="UserControls\**" />
+    <EmbeddedResource Remove="UserControls\**" />
+    <None Remove="UserControls\**" />
+    <Page Remove="UserControls\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="ViewModels\PopUpViewModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\ArrowCursor.cur" />
+    <None Remove="Resources\Background.png" />
+    <None Remove="Resources\BeamCursor.cur" />
+    <None Remove="Resources\CheckIcon.png" />
+    <None Remove="Resources\HandCursor.cur" />
+    <None Remove="Resources\icons8-search-64.png" />
+    <None Remove="Resources\Logo.png" />
+    <None Remove="Resources\Search.png" />
+    <None Remove="Resources\SearchIcon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\ArrowCursor.cur" />
+    <Resource Include="Resources\BeamCursor.cur" />
+    <Resource Include="Resources\CheckIcon.png" />
+    <Resource Include="Resources\HandCursor.cur" />
+    <Resource Include="Resources\Logo.png" />
+    <Resource Include="Resources\SearchIcon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MySqlConnector" Version="2.2.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+</Project>

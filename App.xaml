@@ -1,0 +1,271 @@
+﻿<Application x:Class="Flixplorer.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Flixplorer"
+             StartupUri="Views/MainWindow.xaml">
+
+    <Application.Resources>
+
+        <!-- Static short source path for Logo -->
+        <ImageSource x:Key="Logo">
+            pack://application:,,,/Resources/Logo.png
+        </ImageSource>
+
+        <!-- Static short source path for SearchIcon -->
+        <ImageSource x:Key="SearchIcon">
+            pack://application:,,,/Resources/SearchIcon.png
+        </ImageSource>
+
+        <!-- Static short source path for CheckIcon -->
+        <ImageSource x:Key="CheckIcon">
+            pack://application:,,,/Resources/CheckIcon.png
+        </ImageSource>
+
+        <!-- Custom style for Border element that contains changing content -->
+        <Style x:Key="ContentBorder" TargetType="Border">
+            <Setter Property="Grid.Column" Value="1"/>
+            <Setter Property="Grid.Row" Value="1"/>
+            <Setter Property="Grid.ColumnSpan" Value="5"/>
+            <Setter Property="Grid.RowSpan" Value="4"/>
+            <Setter Property="BorderThickness" Value="2,2,0,0"/>
+            <Setter Property="BorderBrush" Value="Red"/>
+            <Setter Property="CornerRadius" Value="10,0,0,0"/>
+        </Style>
+
+        <!-- Custom style for textblocks that are used in log in/register view -->
+        <Style x:Key="CustomTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Width" Value="170"/>
+            <Setter Property="Margin" Value="0,0,0,40"/>
+            <Setter Property="Padding" Value="0,3,0,0"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="Foreground" Value="Red"/>
+        </Style>
+
+        <!-- Custom style for error message textblocks -->
+        <Style x:Key="ErrorTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="Width" Value="170"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
+
+        <!-- Custom style for TextBox element -->
+        <Style x:Key="CustomTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Width" Value="250"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="CaretBrush" Value="Red"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="border"
+                                BorderBrush="Red"
+                                Background="Black"
+                                BorderThickness="2"
+                                CornerRadius="10">
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="false"
+                                          HorizontalScrollBarVisibility="Hidden"
+                                          VerticalScrollBarVisibility="Hidden"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Custom style for PasswordBox element -->
+        <Style x:Key="CustomPasswordBoxStyle" TargetType="PasswordBox">
+            <Setter Property="Width" Value="170"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Padding" Value="0,0,0,2"/>
+            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="CaretBrush" Value="Red"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="PasswordBox">
+                        <Border x:Name="border"
+                                BorderBrush="Red"
+                                Background="Black"
+                                BorderThickness="2"
+                                CornerRadius="10">
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="false"
+                                          HorizontalScrollBarVisibility="Hidden"
+                                          VerticalScrollBarVisibility="Hidden"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Custom style for Button elements in left side menu -->
+        <Style x:Key="CustomMenuButtonStyle" TargetType="Button">
+            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="IsTabStop" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Background="Black">
+                            <Border Name="border"
+                                    BorderThickness="2"
+                                    BorderBrush="Red"
+                                    CornerRadius="10"
+                                    Padding="0,14,0,0">
+                                <ContentPresenter HorizontalAlignment="Center"
+                                                  VerticalAlignment="Stretch"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderThickness" Value="4"/>
+                                <Setter Property="FontSize" Value="28"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Custom style for Button elements in log in/register window -->
+        <Style x:Key="CustomConfirmationButtonStyle" TargetType="Button">
+            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="IsTabStop" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border"
+                                    BorderThickness="2"
+                                    BorderBrush="Red"
+                                    Background="Black"
+                                    CornerRadius="10"
+                                    Padding="0,7,0,0">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                                  VerticalAlignment="Stretch"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderThickness" Value="4"/>
+                                <Setter Property="FontSize" Value="20"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Custom style for Button element in popup window -->
+        <Style x:Key="PopUpButtonStyle" TargetType="Button">
+            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="IsTabStop" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Background="Black">
+                            <Border Name="border"
+                                    BorderThickness="2"
+                                    BorderBrush="Red"
+                                    CornerRadius="10"
+                                    Padding="0,5,0,0">
+                                <ContentPresenter HorizontalAlignment="Center"
+                                                  VerticalAlignment="Stretch"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderThickness" Value="4"/>
+                                <Setter Property="FontSize" Value="16"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Custom style for Button element that has icon in it -->
+        <Style x:Key="CustomIconButtonStyle" TargetType="Button">
+            <Setter Property="IsTabStop" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Background="Black">
+                            <Border Name="border"
+                                    BorderBrush="Red"
+                                    CornerRadius="10">
+                                <ContentPresenter HorizontalAlignment="Center"
+                                                  VerticalAlignment="Stretch"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderThickness" Value="2"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Custom style for checkbox -->
+        <Style x:Key="CustomCheckBoxStyle" TargetType="CheckBox">
+            <Setter Property="IsTabStop" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <StackPanel Orientation="Horizontal" Background="Transparent">
+                            <Border x:Name="border"
+                                    Width="30"
+                                    Height="30"
+                                    BorderThickness="2"
+                                    BorderBrush="Red"
+                                    CornerRadius="10">
+                                <Image x:Name="CheckBoxImage" Source="{StaticResource CheckIcon}" Width="15"/>
+                            </Border>
+                            <ContentPresenter/>
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter TargetName="CheckBoxImage" Property="Visibility" Value="Hidden"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderThickness" Value="4"/>
+                                <Setter TargetName="CheckBoxImage" Property="Width" Value="13"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Application.Resources>
+
+</Application>
